@@ -5,10 +5,12 @@ namespace MoveGraphic
 {
     public partial class Form1 : Form
     {
+        Form2 Form2;
+
         //更新処理のためにタイマーを作成
         Timer Updatetimer = new Timer();
 
-        List<Object> ObjectList = new();
+        public List<Object> ObjectList = new();
 
         /*マウス関係*/
         Point MousePoint;
@@ -28,6 +30,9 @@ namespace MoveGraphic
             Updatetimer.Interval = 1;
             Updatetimer.Tick += new EventHandler(Update);
             Updatetimer.Start();
+
+            Form2 = new(this);
+            Form2.Show(this);
         }
 
         /// <summary>
@@ -53,7 +58,6 @@ namespace MoveGraphic
                 var type = ObjectList[i].GetType();
 
                 DebugTextObject.Draw((ObjectBase)ObjectList[i], e);
-
 
                 /*描画*/
                 if (type == typeof(LineObject))
