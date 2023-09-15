@@ -105,8 +105,12 @@
             Controls.Add(LineY_textBox);
             Controls.Add(LineX_textBox);
             Controls.Add(AddLine_button);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Form2";
             Text = "Form2";
+            FormClosed += Form2_FormClosed;
             ResumeLayout(false);
             PerformLayout();
         }

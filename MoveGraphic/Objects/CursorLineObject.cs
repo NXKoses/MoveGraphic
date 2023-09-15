@@ -1,9 +1,9 @@
 ﻿namespace MoveGraphic.Objects
 {
-    internal class CursorMoveObject : ObjectBase
+    internal class CursorLineObject : ObjectBase
     {
         bool isupdown = false;
-        Pen Pen = new(Color.Red, 2);
+        private Pen Pen = new(Color.Red, 2);
 
         /// <summary>
         /// 描画

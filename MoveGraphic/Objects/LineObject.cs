@@ -20,7 +20,7 @@ namespace MoveGraphic.Objects
         /// <param name="e"></param>
         public void Draw(PaintEventArgs e)
         {
-            e.Graphics.DrawLine(pen, X, Y, X2, Y2);
+            e.Graphics.DrawLine(pen, GetDrawX(), GetDrawY(), GetDrawX2(), GetDrawY2());
         }
     }
 }

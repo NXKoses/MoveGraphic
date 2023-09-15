@@ -26,7 +26,7 @@ namespace MoveGraphic.Objects
         /// <param name="e"></param>
         public void Draw(PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(Brush, X, Y, Width, Height);
+            e.Graphics.FillRectangle(Brush, GetDrawX(), GetDrawY(), Width, Height);
         }
     }
 }
