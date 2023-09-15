@@ -15,7 +15,6 @@ namespace MoveGraphic
         internal List<ObjectBase> ObjectList = new();
 
         /*マウス関係*/
-        private Point MousePoint;
         private Point DiffMovepoint;
         private CursorLineObject CursorLineObject = new();
 
@@ -87,18 +86,17 @@ namespace MoveGraphic
         /// <param name="e"></param>
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
+            //画面下に座標を表示する
             toolStripStatusLabel1.Text = $"Disp in X: {e.X}, Y: {e.Y}";
             toolStripStatusLabel2.Text = $"Abso in X: {e.X - Program.X_offset}, Y: {e.Y - Program.Y_offset}";
 
+            //クリックしている間
             if (e.Button == MouseButtons.Left)
             {
-                //マウスで移動した距離を求めます
-                DiffMovepoint = new Point(e.X - MousePoint.X, e.Y - MousePoint.Y);
+                /*Cursor線の先を設定する    同時に、移動した差分も取得する*/
+                DiffMovepoint = CursorLineObject.DragXY(e.X, e.Y);
 
-                /*Cursor線の先っぽ設定*/
-                CursorLineObject.X2 = DiffMovepoint.X + CursorLineObject.X;
-                CursorLineObject.Y2 = DiffMovepoint.Y + CursorLineObject.Y;
-
+                //画面下に座標を表示する
                 toolStripStatusLabel3.Text = $"Diff X: {DiffMovepoint.X}, Y: {DiffMovepoint.Y}";
             }
         }
@@ -110,18 +108,9 @@ namespace MoveGraphic
         /// <param name="e"></param>
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            /*Cursor線の設定*/
-            CursorLineObject.X = e.X;
-            CursorLineObject.Y = e.Y;
-            CursorLineObject.X2 = e.X;  //前回のが残ってるから代入する
-            CursorLineObject.Y2 = e.Y;  //前回のが残ってるから代入する
+            /*Cursor線の根元の設定*/
+            CursorLineObject.DownXY(e.X, e.Y);
             CursorLineObject.IsUpDown(true);
-
-            //左クリックしたときの座標を取得
-            if (e.Button == MouseButtons.Left)
-            {
-                MousePoint = e.Location;
-            }
         }
 
         /// <summary>
@@ -134,7 +123,7 @@ namespace MoveGraphic
             //Cursor線を非表示にします
             CursorLineObject.IsUpDown(false);
 
-            //マウス移動分をオフセットとして加算します。
+            //マウス移動分をオフセットに加算します。
             if (e.Button == MouseButtons.Left)
             {
                 Program.X_offset += DiffMovepoint.X;
