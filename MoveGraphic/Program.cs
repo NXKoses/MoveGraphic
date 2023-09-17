@@ -1,3 +1,6 @@
+using MoveGraphic.Objects;
+using System.Diagnostics;
+
 namespace MoveGraphic
 {
     internal static class Program
@@ -13,6 +16,12 @@ namespace MoveGraphic
         public static int Y_offset { get; set; } = 0;
 
         /// <summary>
+        /// Bve内の1kmは何ピクセルなのか
+        /// </summary>
+        public static int DisplayScale { get; set; } = 100;
+
+
+        /// <summary>
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
@@ -23,5 +32,28 @@ namespace MoveGraphic
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
         }
+
+        public static void SaveObject(List<ObjectBase> objectBase, string filepath)
+        {
+            for (int i = 0; i < objectBase.Count; i++)
+            {
+                //型で分ける
+                switch (objectBase[i])
+                {
+                    case RectangleObject:
+                        var rectangle = (RectangleObject)objectBase[i];
+                        Debug.WriteLine($"Wid: {rectangle.Width}, Hei:{rectangle.Height}");
+                        break;
+
+                    case LineObject:
+                        var line = (LineObject)objectBase[i];
+                        break;
+                    default:
+                        break;
+                }
+                //保存するためにテキストとかJsonとかに書き込む処理を書く
+            }
+        }
     }
 }
+

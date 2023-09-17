@@ -5,9 +5,6 @@ namespace MoveGraphic
 {
     public partial class Form1 : Form
     {
-        //配列の中身は変えずに表示にオフセットかけてあげる
-
-
         //更新処理のためにタイマーを作成
         private Timer Updatetimer = new Timer();
 
@@ -17,23 +14,70 @@ namespace MoveGraphic
         /*マウス関係*/
         private Point DiffMovepoint;
         private CursorLineObject CursorLineObject = new();
+        private int WheelCount = 0;
+
+        /*座標*/
+
 
         public Form1()
         {
+            //コントロールFormの表示
             new Form2(this).Show();
 
             InitializeComponent();
+            this.MouseWheel += MouseWheelEvent;
 
             //ちらつき防止
             this.DoubleBuffered = true;
 
-            ObjectList.Add(new LineObject(100, 100, 150, 150));
-            ObjectList.Add(new LineObject(0, 0, 0, 0));
-            ObjectList.Add(new RectangleObject(150, 150, 20, 20));
+            ObjectList.Add(new LineObject(150, 0, 150, 150));
 
             Updatetimer.Interval = 1;
             Updatetimer.Tick += new EventHandler(Update);
             Updatetimer.Start();
+        }
+
+
+        //private int GetDistance(MouseEventArgs e, int x, int y)
+        //{
+        //    //MathFunc.TwoPointDistance(x, y, e.X, e.Y, 2);
+        //    int dx = x - e.X;
+        //    int dy = y - e.Y;
+
+
+
+        //    return 0;
+        //}
+
+        //private int ChangeScale(MouseEventArgs e)
+        //{
+
+        //    return 0;
+        //}
+
+        private void MouseWheelEvent(object? sender, MouseEventArgs e)
+        {
+            int pow = 0;
+
+            if (e.Delta < 0)
+            {
+                pow = 2;
+                WheelCount--;
+            }
+            else
+            {
+                pow = -2;
+                WheelCount++;
+            }
+
+            for (int i = 0; i < ObjectList.Count; i++)
+            {
+                //拡大処理?
+
+            }
+
+
+            //Debug.WriteLine($"{e.Delta}, {WheelCount}");
         }
 
         /// <summary>
@@ -60,7 +104,7 @@ namespace MoveGraphic
                 var type = ObjectList[i].GetType();
 
                 //オブジェクト隣の文字描画
-                DebugTextObject.Absolute_XY(ObjectList[i], e);
+                DebugTextObject.DispToBveScale(ObjectList[i], e);
 
                 /*オブジェクトごとに描画*/
                 if (type == typeof(LineObject))
@@ -131,6 +175,12 @@ namespace MoveGraphic
             }
             DiffMovepoint.X = 0;
             DiffMovepoint.Y = 0;
+        }
+
+        private void 保存SToolStripButton_Click(object sender, EventArgs e)
+        {
+            //未完成
+            Program.SaveObject(ObjectList, @"");
         }
     }
 }

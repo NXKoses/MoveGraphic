@@ -21,23 +21,26 @@
         /// <summary>
         /// 描画するときのブラシ
         /// </summary>
-        internal SolidBrush Brush { get; set; }
+        internal SolidBrush Brush { get; set; } = new(Color.Gray);
 
         /// <summary>
         /// 描画すべき座標を取得します
         /// </summary>
         /// <returns>X座標</returns>
         internal int GetDrawX() => X + Program.X_offset;
+
         /// <summary>
         /// 描画すべき座標を取得します
         /// </summary>
         /// <returns>Y座標</returns>
         internal int GetDrawY() => Y + Program.Y_offset;
+
         /// <summary>
         /// 描画すべき座標を取得します
         /// </summary>
         /// <returns>座標</returns>
         internal int GetDrawX2() => X2 + Program.X_offset;
+
         /// <summary>
         /// 描画すべき座標を取得します
         /// </summary>
@@ -48,9 +51,10 @@
         /// 色を変更します。
         /// </summary>
         /// <param name="newcolor"></param>
-        internal void ChangeColor(Color newcolor)
+        internal void SetColor(Color newcolor)
         {
             pen.Color = newcolor;
+            Brush.Color = newcolor;
         }
     }
 }
