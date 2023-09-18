@@ -14,7 +14,7 @@
             //ドラッグしている時だけ
             if (isupdown)
             {
-                e.Graphics.DrawLine(Pen, X, Y, X2, Y2);
+                e.Graphics.DrawLine(Pen, InternalStartPoint.X, InternalStartPoint.Y, InternalEndPoint.X, InternalEndPoint.Y);
             }
         }
 
@@ -25,8 +25,8 @@
         /// <param name="y"></param>
         public void DownXY(int x_down, int y_down)
         {
-            X = X2 = x_down;
-            Y = Y2 = y_down;
+            InternalStartPoint = new Point(x_down, y_down);
+            InternalEndPoint = new Point(x_down, y_down);
         }
 
         /// <summary>
@@ -37,11 +37,10 @@
         /// <returns>移動した分の座標</returns>
         public Point DragXY(int x_now, int y_now)
         {
-            X2 = x_now;
-            Y2 = y_now;
+            InternalEndPoint = new Point(x_now, y_now);
 
             //移動した距離を求めて返す
-            return new Point(x_now - X, y_now - Y);
+            return new Point(x_now - InternalStartPoint.X, y_now - InternalStartPoint.Y);
         }
 
         public void IsUpDown(bool updown)

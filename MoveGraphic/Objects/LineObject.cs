@@ -1,11 +1,15 @@
-﻿namespace MoveGraphic.Objects
+﻿using System.Net;
+
+namespace MoveGraphic.Objects
 {
     internal class LineObject : ObjectBase
     {
-        public LineObject(int x, int y, int x2, int y2)
+        public LineObject(Point startPoint, Point endPoint)
         {
-            X = x; Y = y;
-            X2 = x2; Y2 = y2;
+            InternalStartPoint = startPoint;
+            InternalEndPoint = endPoint;
+            DisplayStartPoint = startPoint;
+            DisplayEndPoint = endPoint;
         }
 
         /// <summary>
@@ -14,7 +18,9 @@
         /// <param name="e"></param>
         public void Draw(PaintEventArgs e)
         {
-            e.Graphics.DrawLine(pen, GetDrawX(), GetDrawY(), GetDrawX2(), GetDrawY2());
+            // 描画座標を使用して直線を描画
+            //e.Graphics.ScaleTransform(Program.DisplayScale, Program.DisplayScale);
+            e.Graphics.DrawLine(Pens.Black, new Point(DisplayStartPoint.X, DisplayStartPoint.Y), new Point(DisplayEndPoint.X, DisplayEndPoint.Y));
         }
     }
 }

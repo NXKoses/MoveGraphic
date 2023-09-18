@@ -30,53 +30,42 @@ namespace MoveGraphic
             //ちらつき防止
             this.DoubleBuffered = true;
 
-            ObjectList.Add(new LineObject(150, 0, 150, 150));
+            ObjectList.Add(new LineObject(
+                new Point(150, 0), new Point(150, 150)));
 
             Updatetimer.Interval = 1;
             Updatetimer.Tick += new EventHandler(Update);
             Updatetimer.Start();
         }
 
-
-        //private int GetDistance(MouseEventArgs e, int x, int y)
-        //{
-        //    //MathFunc.TwoPointDistance(x, y, e.X, e.Y, 2);
-        //    int dx = x - e.X;
-        //    int dy = y - e.Y;
-
-
-
-        //    return 0;
-        //}
-
-        //private int ChangeScale(MouseEventArgs e)
-        //{
-
-        //    return 0;
-        //}
-
         private void MouseWheelEvent(object? sender, MouseEventArgs e)
         {
-            int pow = 0;
-
-            if (e.Delta < 0)
-            {
-                pow = 2;
-                WheelCount--;
-            }
-            else
-            {
-                pow = -2;
-                WheelCount++;
-            }
+            // マウスの位置を中心に拡大縮小
+            float zoomFactor = (e.Delta > 0) ? 1.1f : 0.9f;
+            Program.DisplayScale *= zoomFactor;
 
             for (int i = 0; i < ObjectList.Count; i++)
             {
-                //拡大処理?
+                //// マウスの位置を中心に内部座標を変更
+                //ObjectList[i].DisplayStartPoint = new Point(
+                //    (int)((ObjectList[i].InternalStartPoint.X - e.X) * zoomFactor + e.X),
+                //    (int)((ObjectList[i].InternalStartPoint.Y - e.Y) * zoomFactor + e.Y)
+                //);
+                //ObjectList[i].DisplayStartPoint = new Point(
+                //    (int)((ObjectList[i].InternalStartPoint.X - e.X) * zoomFactor + e.X),
+                //    (int)((ObjectList[i].InternalStartPoint.Y - e.Y) * zoomFactor + e.Y)
+                //);
 
+                // 描画座標を更新
+                ObjectList[i].DisplayStartPoint = new Point(
+                    (int)(ObjectList[i].InternalStartPoint.X * Program.DisplayScale),
+                    (int)(ObjectList[i].InternalStartPoint.Y * Program.DisplayScale)
+                );
+                ObjectList[i].DisplayEndPoint = new Point(
+                    (int)(ObjectList[i].InternalEndPoint.X * Program.DisplayScale),
+                    (int)(ObjectList[i].InternalEndPoint.Y * Program.DisplayScale)
+                );
             }
-
-
             //Debug.WriteLine($"{e.Delta}, {WheelCount}");
         }
 

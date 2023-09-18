@@ -6,9 +6,13 @@
 
         public int Height { get; set; }
 
-        public RectangleObject(int x, int y, int width, int height)
+        public RectangleObject(Point startPoint, Point endPoint, int width, int height)
         {
-            X = x; Y = y;
+            InternalStartPoint = startPoint;
+            InternalEndPoint = endPoint;
+            DisplayStartPoint = startPoint;
+            DisplayEndPoint = endPoint;
+
             Width = width; Height = height;
             Brush = new SolidBrush(Color.Gray);
         }
@@ -20,7 +24,7 @@
         /// <param name="e"></param>
         public void Draw(PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(Brush, GetDrawX(), GetDrawY(), Width, Height);
+            e.Graphics.FillRectangle(Brush, InternalStartPoint.X, InternalStartPoint.Y, Width, Height);
         }
     }
 }

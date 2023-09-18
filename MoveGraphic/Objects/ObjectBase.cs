@@ -2,16 +2,36 @@
 {
     internal class ObjectBase
     {
+        private Point displaystartpoint;
+        private Point displayendpoint;
+
+        internal Point InternalStartPoint { get; set; } = new();      // 内部座標
+        internal Point InternalEndPoint { get; set; } = new();        // 内部座標
+
         /// <summary>
-        /// 本当の座標
+        /// 描画座標　取得するときにオフセットを足して返す
         /// </summary>
-        internal int X { get; set; }
+        internal Point DisplayStartPoint
+        {
+            set
+            {
+                displaystartpoint = value;
+            }
+            get { return new Point(displaystartpoint.X + Program.X_offset, displaystartpoint.Y + Program.Y_offset); }
+        }
 
-        internal int Y { get; set; }
+        /// <summary>
+        /// 描画座標　取得するときにオフセットを足して返す
+        /// </summary>
+        internal Point DisplayEndPoint
+        {
+            set
+            {
+                displayendpoint = value;
+            }
+            get { return new Point(displayendpoint.X + Program.X_offset, displayendpoint.Y + Program.Y_offset); }
+        }
 
-        internal int X2 { get; set; }
-
-        internal int Y2 { get; set; }
 
         /// <summary>
         /// 描画するときのペン
@@ -22,30 +42,6 @@
         /// 描画するときのブラシ
         /// </summary>
         internal SolidBrush Brush { get; set; } = new(Color.Gray);
-
-        /// <summary>
-        /// 描画すべき座標を取得します
-        /// </summary>
-        /// <returns>X座標</returns>
-        internal int GetDrawX() => X + Program.X_offset;
-
-        /// <summary>
-        /// 描画すべき座標を取得します
-        /// </summary>
-        /// <returns>Y座標</returns>
-        internal int GetDrawY() => Y + Program.Y_offset;
-
-        /// <summary>
-        /// 描画すべき座標を取得します
-        /// </summary>
-        /// <returns>座標</returns>
-        internal int GetDrawX2() => X2 + Program.X_offset;
-
-        /// <summary>
-        /// 描画すべき座標を取得します
-        /// </summary>
-        /// <returns>座標</returns>
-        internal int GetDrawY2() => Y2 + Program.Y_offset;
 
         /// <summary>
         /// 色を変更します。

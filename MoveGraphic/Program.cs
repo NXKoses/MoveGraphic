@@ -16,9 +16,9 @@ namespace MoveGraphic
         public static int Y_offset { get; set; } = 0;
 
         /// <summary>
-        /// Bve“à‚Ì1km‚Í‰½ƒsƒNƒZƒ‹‚È‚Ì‚©
+        /// Šg‘å”{—¦
         /// </summary>
-        public static int DisplayScale { get; set; } = 100;
+        public static float DisplayScale { get; set; } = 1.0f;
 
 
         /// <summary>
