@@ -8,9 +8,6 @@ namespace MoveGraphic
         //更新処理のためにタイマーを作成
         private Timer Updatetimer = new Timer();
 
-        //描画オブジェクトリスト
-        internal List<ObjectBase> ObjectList = new();
-
         /*マウス関係*/
         private Point DiffMovepoint;
         private CursorLineObject CursorLineObject = new();
@@ -22,7 +19,7 @@ namespace MoveGraphic
         public Form1()
         {
             //コントロールFormの表示
-            new Form2(this).Show();
+            new Form2().Show();
 
             InitializeComponent();
             this.MouseWheel += MouseWheelEvent;
@@ -30,8 +27,12 @@ namespace MoveGraphic
             //ちらつき防止
             this.DoubleBuffered = true;
 
-            ObjectList.Add(new LineObject(
+            //オブジェクト追加
+            Program.ObjectList.Add(new LineObject(
                 new Point(150, 0), new Point(150, 150)));
+
+            Program.ObjectList.Add(new RectangleObject(
+                new Point(300, 0), new Point(300, 300), 20, 20));
 
             Updatetimer.Interval = 1;
             Updatetimer.Tick += new EventHandler(Update);
@@ -44,26 +45,26 @@ namespace MoveGraphic
             float zoomFactor = (e.Delta > 0) ? 1.1f : 0.9f;
             Program.DisplayScale *= zoomFactor;
 
-            for (int i = 0; i < ObjectList.Count; i++)
+            for (int i = 0; i < Program.ObjectList.Count; i++)
             {
                 //// マウスの位置を中心に内部座標を変更
-                //ObjectList[i].DisplayStartPoint = new Point(
-                //    (int)((ObjectList[i].InternalStartPoint.X - e.X) * zoomFactor + e.X),
-                //    (int)((ObjectList[i].InternalStartPoint.Y - e.Y) * zoomFactor + e.Y)
+                //Program.ObjectList[i].DisplayStartPoint = new Point(
+                //    (int)((Program.ObjectList[i].InternalStartPoint.X - e.X) * zoomFactor + e.X),
+                //    (int)((Program.ObjectList[i].InternalStartPoint.Y - e.Y) * zoomFactor + e.Y)
                 //);
-                //ObjectList[i].DisplayStartPoint = new Point(
-                //    (int)((ObjectList[i].InternalStartPoint.X - e.X) * zoomFactor + e.X),
-                //    (int)((ObjectList[i].InternalStartPoint.Y - e.Y) * zoomFactor + e.Y)
+                //Program.ObjectList[i].DisplayStartPoint = new Point(
+                //    (int)((Program.ObjectList[i].InternalStartPoint.X - e.X) * zoomFactor + e.X),
+                //    (int)((Program.ObjectList[i].InternalStartPoint.Y - e.Y) * zoomFactor + e.Y)
                 //);
 
                 // 描画座標を更新
-                ObjectList[i].DisplayStartPoint = new Point(
-                    (int)(ObjectList[i].InternalStartPoint.X * Program.DisplayScale),
-                    (int)(ObjectList[i].InternalStartPoint.Y * Program.DisplayScale)
+                Program.ObjectList[i].DisplayStartPoint = new Point(
+                    (int)(Program.ObjectList[i].InternalStartPoint.X * Program.DisplayScale),
+                    (int)(Program.ObjectList[i].InternalStartPoint.Y * Program.DisplayScale)
                 );
-                ObjectList[i].DisplayEndPoint = new Point(
-                    (int)(ObjectList[i].InternalEndPoint.X * Program.DisplayScale),
-                    (int)(ObjectList[i].InternalEndPoint.Y * Program.DisplayScale)
+                Program.ObjectList[i].DisplayEndPoint = new Point(
+                    (int)(Program.ObjectList[i].InternalEndPoint.X * Program.DisplayScale),
+                    (int)(Program.ObjectList[i].InternalEndPoint.Y * Program.DisplayScale)
                 );
             }
             //Debug.WriteLine($"{e.Delta}, {WheelCount}");
@@ -87,23 +88,23 @@ namespace MoveGraphic
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             //リストの数だけ実行
-            for (int i = 0; i < ObjectList.Count; i++)
+            for (int i = 0; i < Program.ObjectList.Count; i++)
             {
                 //オブジェクトの種類を取得
-                var type = ObjectList[i].GetType();
+                var type = Program.ObjectList[i].GetType();
 
                 //オブジェクト隣の文字描画
-                DebugTextObject.DispToBveScale(ObjectList[i], e);
+                DebugTextObject.DispToBveScale(Program.ObjectList[i], e);
 
                 /*オブジェクトごとに描画*/
                 if (type == typeof(LineObject))
                 {
-                    LineObject lineObject = (LineObject)ObjectList[i];
+                    LineObject lineObject = (LineObject)Program.ObjectList[i];
                     lineObject.Draw(e);
                 }
                 else if (type == typeof(RectangleObject))
                 {
-                    RectangleObject rectangleObject = (RectangleObject)ObjectList[i];
+                    RectangleObject rectangleObject = (RectangleObject)Program.ObjectList[i];
                     rectangleObject.Draw(e);
                 }
             }
@@ -169,7 +170,7 @@ namespace MoveGraphic
         private void 保存SToolStripButton_Click(object sender, EventArgs e)
         {
             //未完成
-            Program.SaveObject(ObjectList, @"");
+            Program.SaveObject(Program.ObjectList, @"");
         }
     }
 }

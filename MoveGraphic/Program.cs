@@ -8,18 +8,22 @@ namespace MoveGraphic
         /// <summary>
         /// 画面上でどれくらい表示をずらすのか
         /// </summary>
-        public static int X_offset { get; set; } = 0;
+        internal static int X_offset { get; set; } = 0;
 
         /// <summary>
         /// 画面上でどれくらい表示をずらすのか
         /// </summary>
-        public static int Y_offset { get; set; } = 0;
+        internal static int Y_offset { get; set; } = 0;
 
         /// <summary>
         /// 拡大倍率
         /// </summary>
-        public static float DisplayScale { get; set; } = 1.0f;
+        internal static float DisplayScale { get; set; } = 1.0f;
 
+        /// <summary>
+        /// 描画オブジェクトリスト
+        /// </summary>
+        internal static List<ObjectBase> ObjectList = new();
 
         /// <summary>
         ///  The main entry point for the application.

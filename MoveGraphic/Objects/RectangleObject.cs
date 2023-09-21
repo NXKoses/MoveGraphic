@@ -24,7 +24,7 @@
         /// <param name="e"></param>
         public void Draw(PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(Brush, InternalStartPoint.X, InternalStartPoint.Y, Width, Height);
+            e.Graphics.FillRectangle(Brush, DisplayStartPoint.X, DisplayStartPoint.Y, Width, Height);
         }
     }
 }
